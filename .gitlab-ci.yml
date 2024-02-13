@@ -56,11 +56,13 @@ Deploy:
     DOCKER_TLS_CERTDIR: ""
   services:
     - docker:24.0.9-dind
+  before_script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   script:
     - docker pull $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG
     - docker stop backend || true
     - docker rm backend || true
-    - docker run -d --name backend -p 3000:3000 $IMAGE_NAME:$IMAGE_TAG
+    - docker run -d --name backend -p 3000:3000 $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG
     - sleep 10
     - docker logs backend
     - sleep 10
