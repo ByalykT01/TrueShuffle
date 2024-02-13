@@ -8,7 +8,7 @@ variables:
   IMAGE_TAG: trueShuffle$CI_COMMIT_SHORT_SHA
   DOCKER_USERNAME: $DOCKER_USERNAME
   DOCKER_PASSWORD: $DOCKER_PASSWORD
-  IMAGE_NAME: "yourusername/backend"
+  IMAGE_NAME: "encape-backend"
 
 Test Repository:
   image: node:21-alpine3.18
@@ -41,7 +41,7 @@ Package:
   services:
     - docker:24.0.9-dind
   before_script:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "$CI_JOB_TOKEN" | docker login -u encape --password-stdin $CI_REGISTRY
   script:
     - docker build -t $IMAGE_NAME:$IMAGE_TAG .
     - docker push $IMAGE_NAME:$IMAGE_TAG
