@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "./buildTS/",
+    "module": "es6",
+    "target": "es6",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["./src/**/*"]
+}
