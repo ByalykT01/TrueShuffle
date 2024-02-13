@@ -35,6 +35,9 @@ Build:
 Package:
   image: docker:24.0.9
   stage: package
+  variables:
+    DOCKER_HOST: "tcp://docker:2375"
+    DOCKER_TLS_CERTDIR: ""
   services:
     - docker:24.0.9-dind
   before_script:
@@ -58,31 +61,6 @@ Deploy:
     - docker stop backend || true
     - docker rm backend || true
     - docker run -d --name backend -p 3000:3000 $IMAGE_NAME:$IMAGE_TAG
-    - sleep 10
-    - docker logs backend
-    - sleep 10
-    - docker exec backend curl http://localhost:3000
-  only:
-    - main
-
-Deploy:
-  stage: deploy
-  image: docker:24.0.9-dind
-  variables:
-    DOCKER_HOST: "tcp://docker:2375"
-    DOCKER_TLS_CERTDIR: ""
-  services:
-    - docker:24.0.9-dind
-  before_script:
-    #- docker login <your-registry> -u <username> -p <password> # Only if using a private registry
-    - docker info
-    - echo "$CI_JOB_TOKEN" | docker login -u encape --password-stdin $CI_REGISTRY
-  script:
-    - docker build -t backend:$IMAGE_TAG . # Adjust the path as needed
-    #- docker push <your-registry>/backend:$IMAGE_TAG # Only if you want to keep the image in a registry
-    - docker stop backend || true
-    - docker rm backend || true
-    - docker run -d --name backend -p 3000:3000 backend:$IMAGE_TAG
     - sleep 10
     - docker logs backend
     - sleep 10
