@@ -13,6 +13,8 @@ variables:
 Test Repository:
   image: node:21-alpine3.18
   stage: test-repo
+  tags:
+    - docker
   script:
     - npm test
   only:
@@ -21,6 +23,8 @@ Test Repository:
 Build:
   image: node:21-alpine3.18
   stage: build
+  tags:
+    - docker
   before_script:
     - npm cache clean --force
     - npm ci
@@ -35,6 +39,8 @@ Build:
 Package:
   image: docker:24.0.9
   stage: package
+  tags:
+    - docker
   variables:
     DOCKER_HOST: "tcp://docker:2375"
     DOCKER_TLS_CERTDIR: ""
@@ -50,22 +56,9 @@ Package:
 
 Deploy:
   stage: deploy
-  image: docker:24.0.9-dind
-  variables:
-    DOCKER_HOST: "tcp://docker:2375"
-    DOCKER_TLS_CERTDIR: ""
-  services:
-    - docker:24.0.9-dind
-  before_script:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  tags:
+    - bash
   script:
-    - docker pull $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG
-    - docker stop backend || true
-    - docker rm backend || true
-    - docker run -d --name backend -p 3000:3000 $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG
-    - sleep 10
-    - docker logs backend
-    - sleep 10
-    - docker exec backend curl http://localhost:3000
+    - /scripts/deployBackend.sh $DOCKER_USERNAME $DOCKER_PASSWORD $IMAGE_NAME $IMAGE_TAG
   only:
     - main
