@@ -13,8 +13,8 @@ app.get('/api', (req:any, res:any) => {
     res.send('Hell');
 });
 
-const privateKey = fs.readFileSync('~/etc/nginx/ssl/local-server.key', 'utf8');
-const certificate = fs.readFileSync('~/etc/nginx/ssl/local-server.crt', 'utf8');
+const privateKey = fs.readFileSync('/etc/nginx/ssl/local-server.key', 'utf8');
+const certificate = fs.readFileSync('/etc/nginx/ssl/local-server.crt', 'utf8');
 
 const credentials = {
     key: privateKey,
