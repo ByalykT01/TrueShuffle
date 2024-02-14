@@ -25,7 +25,8 @@ const credentials = {
 const httpsServer = https.createServer(credentials, app);
 
 // Listen on a port
-httpsServer.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+httpsServer.listen(PORT, '0.0.0.0', () => {
     console.log('HTTPS Server running on port 3000');
 });
 
