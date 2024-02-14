@@ -18,6 +18,8 @@
     "babel-jest": "^29.7.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
     "require": "^2.4.20",
     "spotify-web-api-node": "^5.0.2",
     "ts-loader": "^9.5.1",
