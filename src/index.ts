@@ -26,8 +26,10 @@ const httpsServer = https.createServer(credentials, app);
 
 // Listen on a port
 const PORT = process.env.PORT || 3000;
-httpsServer.listen(PORT, '0.0.0.0', () => {
+httpsServer.listen(PORT, () => {
     console.log('HTTPS Server running on port 3000');
+}).on('error', (err: any) => {
+    console.error('Server failed to start:', err);
 });
 
 // const express = require('express');
