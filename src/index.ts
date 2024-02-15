@@ -57,7 +57,7 @@ app.post("/refresh", (req: any, res: any) => {
       });
     })
     .catch(() => {
-      res.sendStatus(400);
+      res.sendStatus(208);
     });
 });
 
@@ -83,7 +83,7 @@ app.post("/login", (req: any, res: any) => {
         res.sendStatus(400);
       });
   } else {
-    res.sendStatus(200);
+    res.sendStatus(208);
   }
 });
 
