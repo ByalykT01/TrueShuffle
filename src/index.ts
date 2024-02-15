@@ -38,7 +38,7 @@ app.post("/refresh", (req: any, res: any) => {
     clientSecret: "7522dff5768a4935aa862b365a33bb7a",
     refreshToken,
   });
-
+console.log("Why am I here?")
   spotifyApi
     .refreshAccessToken()
     .then((data: any) => {
