@@ -53,21 +53,27 @@ app.post("/refresh", (req: any, res: any) => {
 });
 
 app.post("/login", async (req: any, res: any) => {
+  let i = 0;
+  console.log(`Checkpoint ${++i}`);
   const code = req.body.code;
   const spotifyApi = new SpotifyWebApi({
     redirectUri: "https://encape.me",
     clientId: "77f685e7f75347a08e71369bd8eef061",
     clientSecret: "7522dff5768a4935aa862b365a33bb7a",
   });
-
+  console.log(`Checkpoint ${++i}`);
   let data = await spotifyApi.authorizationCodeGrant(code);
+  console.log(`Checkpoint ${++i}`);
   try {
+    console.log(`Checkpoint1 ${++i}`);
     res.json({
       accessToken: data.body.access_token,
       refreshToken: data.body.refreh_token,
       expiresIn: data.body.expires_in,
     });
+    console.log(`Checkpoint1 ${++i}`);
   } catch (e: any) {
+    console.log(`Checkpoint2 ${++i}`);
     console.log(e);
     res.sendStatus(404);
   }
