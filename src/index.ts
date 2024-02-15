@@ -14,11 +14,14 @@ const credentials = {
   cert: certificate,
 };
 
-// Endpoints
-
+// Initialization
 const app = express();
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+
+// Endpoints
 app.get("/", (req: any, res: any) => {
   res.send("Hello True Shuffle!");
 });
@@ -49,9 +52,9 @@ app.post("/refresh", (req: any, res: any) => {
     });
 });
 
-app.post("/login", (req: any, res: any) => {
-  console.log("Got a new request to log in!")
-  console.log("The code is " + req.body.code)
+app.post("/login", async (req: any, res: any) => {
+  console.log("Got a new request to log in!");
+  console.log("The code is " + req.body.code);
   const code = req.body.code;
   const spotifyApi = new SpotifyWebApi({
     redirectUri: "http://localhost:3000",
@@ -59,19 +62,17 @@ app.post("/login", (req: any, res: any) => {
     clientSecret: "7522dff5768a4935aa862b365a33bb7a",
   });
 
-  spotifyApi.authorizationCodeGrant(code).then((data: any) => {
-    res
-      .json({
-        accessToken: data.body.access_token,
-        refreshToken: data.body.refreh_token,
-        expiresIn: data.body.expires_in,
-      })
-      .catch((err: any) => {
-        console.log(err);
-        res.sendStatus(404);
-      });
-  });
-  res.send("Hello World");
+  let data = await spotifyApi.authorizationCodeGrant(code);
+  try {
+    res.json({
+      accessToken: data.body.access_token,
+      refreshToken: data.body.refreh_token,
+      expiresIn: data.body.expires_in,
+    });
+  } catch (e: any) {
+    console.log(e);
+    res.sendStatus(404);
+  }
 });
 
 // HTTPS server
