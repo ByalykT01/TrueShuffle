@@ -57,6 +57,9 @@ app.post("/login", async (req: any, res: any) => {
   console.log(`Checkpoint ${++i}`);
   const code = req.body.code;
   console.log(`Code ${req.body.code}`);
+  console.log(`redirectUri https://encape.me`);
+  console.log(`clientId 77f685e7f75347a08e71369bd8eef061`);
+  console.log(`clientSecret 7522dff5768a4935aa862b365a33bb7a`);
   const spotifyApi = new SpotifyWebApi({
     redirectUri: "https://encape.me",
     clientId: "77f685e7f75347a08e71369bd8eef061",
