@@ -1,7 +1,7 @@
 const https = require("https");
 const fs = require("fs");
 const express = require("express");
-const SpotifyWebApi = require('spotify-web-api-node');
+const SpotifyWebApi = require("spotify-web-api-node");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
@@ -52,38 +52,25 @@ app.post("/refresh", (req: any, res: any) => {
     });
 });
 
-app.post("/login", async (req: any, res: any) => {
-  let i = 0;
-  console.log(`Checkpoint ${++i}`);
-  const code = req.body.code;
-  console.log(`Code ${req.body.code}`);
-  console.log(`redirectUri https://encape.me`);
-  console.log(`clientId 77f685e7f75347a08e71369bd8eef061`);
-  console.log(`clientSecret 7522dff5768a4935aa862b365a33bb7a`);
+app.post("/login", (req: any, res: any) => {
   const spotifyApi = new SpotifyWebApi({
     redirectUri: "https://encape.me",
     clientId: "77f685e7f75347a08e71369bd8eef061",
     clientSecret: "7522dff5768a4935aa862b365a33bb7a",
   });
-  console.log(`Checkpoint ${++i}`);
-  spotifyApi.authorizationCodeGrant(code).then(
-    function(data: any) {
-      console.log(`Checkpoint ${++i}`);
-      console.log('The token expires in ' + data.body['expires_in']);
-      console.log('The access token is ' + data.body['access_token']);
-      console.log('The refresh token is ' + data.body['refresh_token']);
-      console.log(`Checkpoint ${++i}`);
+  spotifyApi.authorizationCodeGrant(req.body.code).then(
+    function (data: any) {
       // Set the access token on the API object to use it in later calls
-      spotifyApi.setAccessToken(data.body['access_token']);
-      spotifyApi.setRefreshToken(data.body['refresh_token']);
-      console.log(`Checkpoint ${++i}`);
+      res.json({
+        accessToken: data.body.access_token,
+        refreshToken: data.body.refreh_token,
+        expiresIn: data.body.expires_in,
+      });
     },
-    function(err: any) {
-      console.log('Something went wrong!', err);
+    function (err: any) {
+      console.log("Something went wrong!", err);
     }
   );
-  console.log(`Checkpoint ${++i}`);
-  console.log("ENDDDD")
 });
 
 // HTTPS server
