@@ -32,7 +32,7 @@ Build:
     - npm run build 
   artifacts:
     paths:
-      - build/
+      - dist/
   only:
     - main
 

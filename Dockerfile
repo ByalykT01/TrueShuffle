@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 3000
 
 # Run the application
-CMD ["node", "build/index.js"]
+CMD ["node", "dist/index.js"]
