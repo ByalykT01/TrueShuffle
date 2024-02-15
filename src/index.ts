@@ -20,7 +20,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const corsOptions = {
-  origin: 'https://encape.me',
+  origin: 'https://encape.me/',
+  
   optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions));
@@ -37,7 +38,7 @@ app.get("/api", (req: any, res: any) => {
 app.post("/refresh", (req: any, res: any) => {
   const refreshToken = req.body.refreshToken;
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: "https://encape.me",
+    redirectUri: "https://encape.me/",
     clientId: "77f685e7f75347a08e71369bd8eef061",
     clientSecret: "7522dff5768a4935aa862b365a33bb7a",
     refreshToken,
@@ -58,7 +59,7 @@ app.post("/refresh", (req: any, res: any) => {
 
 app.post("/login", (req: any, res: any) => {
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: "https://encape.me",
+    redirectUri: "https://encape.me/",
     clientId: "77f685e7f75347a08e71369bd8eef061",
     clientSecret: "7522dff5768a4935aa862b365a33bb7a",
   });
@@ -99,5 +100,5 @@ httpsServer
   .on("error", (err: any) => {
     console.error("Server failed to start:", err);
   });
-httpsServer.setTimeout(1000);
+httpsServer.setTimeout(10000);
 httpsServer.keepAliveTimeout = 65000;
