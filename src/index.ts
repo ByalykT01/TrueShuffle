@@ -49,7 +49,9 @@ app.post("/refresh", (req: any, res: any) => {
     });
 });
 
-app.get("/login", (req: any, res: any) => {
+app.post("/login", (req: any, res: any) => {
+  console.log("Got a new request to log in!")
+  console.log("The code is " + req.body.code)
   const code = req.body.code;
   const spotifyApi = new SpotifyWebApi({
     redirectUri: "http://localhost:3000",
@@ -79,7 +81,7 @@ const httpsServer = https.createServer(credentials, app);
 const PORT = process.env.PORT || 3000;
 httpsServer
   .listen(PORT, () => {
-    console.log("HTTPS Server running on port 3000");
+    console.log(`HTTPS Server running on port ${PORT}`);
   })
   .on("error", (err: any) => {
     console.error("Server failed to start:", err);
