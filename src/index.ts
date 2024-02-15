@@ -58,13 +58,9 @@ app.post("/login", (req: any, res: any) => {
     clientId: "77f685e7f75347a08e71369bd8eef061",
     clientSecret: "7522dff5768a4935aa862b365a33bb7a",
   });
-  console.log("----------/login-----------");
-  console.log(`accessToken: ${spotifyApi.redirectUri}`);
-  console.log(`refreshToken: ${spotifyApi.clientId}`);
-  console.log(`expiresIn: ${spotifyApi.clientSecret}`);
-  console.log("----------------------------");
-  spotifyApi.authorizationCodeGrant(req.body.code).then(
-    function (data: any) {
+  spotifyApi
+    .authorizationCodeGrant(req.body.code)
+    .then((data: any) => {
       // Set the access token on the API object to use it in later calls
       console.log("-----authorizationCodeGrant------");
       console.log(`accessToken: ${data.body.access_token}`);
@@ -76,11 +72,13 @@ app.post("/login", (req: any, res: any) => {
         refreshToken: data.body.refreh_token,
         expiresIn: data.body.expires_in,
       });
-    },
-    function (err: any) {
-      console.log("Something went wrong!", err);
-    }
-  );
+      console.log(res.json);
+      console.log("END OF FUNC");
+    })
+    .catch((err: any) => {
+      console.log("WHY DID I BREAK??");
+      console.log(err);
+    });
 });
 
 // HTTPS server
