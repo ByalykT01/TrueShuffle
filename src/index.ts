@@ -83,19 +83,7 @@ app.post("/login", async (req: any, res: any) => {
     }
   );
   console.log(`Checkpoint ${++i}`);
-  spotifyApi
-    .authorizationCodeGrant(code)
-    .then((data: any) => {
-      res.json({
-        accessToken: data.body.access_token,
-        refreshToken: data.body.refreh_token,
-        expiresIn: data.body.expires_in,
-      });
-    })
-    .catch((e: any) => {
-      res.send(e);
-      throw e;
-    });
+  console.log("ENDDDD")
 });
 
 // HTTPS server
