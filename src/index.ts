@@ -19,7 +19,7 @@ const credentials = {
 const app = express();
 app.use(bodyParser.json());
 app.get("/", (req: any, res: any) => {
-  res.send("Hello World");
+  res.send("Hello True Shuffle!");
 });
 
 app.get("/api", (req: any, res: any) => {
