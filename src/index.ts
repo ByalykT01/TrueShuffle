@@ -20,10 +20,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const corsOptions = {
-  origin: 'https://encape.me',
+  origin: "https://encape.me",
 
-  optionsSuccessStatus: 200
-}
+  optionsSuccessStatus: 200,
+};
 app.use(cors(corsOptions));
 
 // Endpoints
@@ -63,29 +63,28 @@ app.post("/login", (req: any, res: any) => {
     clientId: "77f685e7f75347a08e71369bd8eef061",
     clientSecret: "7522dff5768a4935aa862b365a33bb7a",
   });
-  if (req.body.code) {
-    spotifyApi
-      .authorizationCodeGrant(req.body.code)
-      .then((data: any) => {
-        // Set the access token on the API object to use it in later calls
-        console.log("-----authorizationCodeGrant------");
-        console.log(`accessToken: ${data.body.access_token}`);
-        console.log(`refreshToken: ${data.body.refreh_token}`);
-        console.log(`expiresIn: ${data.body.expires_in}`);
-        console.log("---------------------------------");
-        res.json({
-          accessToken: data.body.access_token,
-          refreshToken: data.body.refreh_token,
-          expiresIn: data.body.expires_in,
-        });
-        console.log(res.json);
-        console.log("END OF FUNC");
-      })
-      .catch((err: any) => {
-        console.log("WHY DID I BREAK??");
-        console.log(err);
+  console.log(`________${req.body.code}________`);
+  spotifyApi
+    .authorizationCodeGrant(req.body.code)
+    .then((data: any) => {
+      // Set the access token on the API object to use it in later calls
+      console.log("-----authorizationCodeGrant------");
+      console.log(`accessToken: ${data.body.access_token}`);
+      console.log(`refreshToken: ${data.body.refreh_token}`);
+      console.log(`expiresIn: ${data.body.expires_in}`);
+      console.log("---------------------------------");
+      res.json({
+        accessToken: data.body.access_token,
+        refreshToken: data.body.refreh_token,
+        expiresIn: data.body.expires_in,
       });
-  }
+      console.log(res.json);
+      console.log("END OF FUNC");
+    })
+    .catch((err: any) => {
+      console.log("WHY DID I BREAK??");
+      console.log(err);
+    });
 });
 
 // HTTPS server
