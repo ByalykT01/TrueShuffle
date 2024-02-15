@@ -92,3 +92,4 @@ httpsServer
     console.error("Server failed to start:", err);
   });
 httpsServer.setTimeout(1000)
+httpsServer.keepAliveTimeout = 65000;
