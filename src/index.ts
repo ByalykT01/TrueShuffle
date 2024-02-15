@@ -1,7 +1,7 @@
 const https = require("https");
 const fs = require("fs");
 const express = require("express");
-const SpotifyWebApi = require("spotify-web-api-node");
+const SpotifyWebApi = require('spotify-web-api-node');
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
@@ -62,6 +62,23 @@ app.post("/login", async (req: any, res: any) => {
     clientSecret: "7522dff5768a4935aa862b365a33bb7a",
   });
   console.log(`Checkpoint ${++i}`);
+  spotifyApi.authorizationCodeGrant(code).then(
+    function(data: any) {
+      console.log(`Checkpoint ${++i}`);
+      console.log('The token expires in ' + data.body['expires_in']);
+      console.log('The access token is ' + data.body['access_token']);
+      console.log('The refresh token is ' + data.body['refresh_token']);
+      console.log(`Checkpoint ${++i}`);
+      // Set the access token on the API object to use it in later calls
+      spotifyApi.setAccessToken(data.body['access_token']);
+      spotifyApi.setRefreshToken(data.body['refresh_token']);
+      console.log(`Checkpoint ${++i}`);
+    },
+    function(err: any) {
+      console.log('Something went wrong!', err);
+    }
+  );
+  console.log(`Checkpoint ${++i}`);
   spotifyApi
     .authorizationCodeGrant(code)
     .then((data: any) => {
@@ -75,21 +92,6 @@ app.post("/login", async (req: any, res: any) => {
       res.send(e);
       throw e;
     });
-  /*let data = await spotifyApi.authorizationCodeGrant(code);
-  console.log(`Checkpoint ${++i}`);
-  try {
-    console.log(`Checkpoint1 ${++i}`);
-    res.json({
-      accessToken: data.body.access_token,
-      refreshToken: data.body.refreh_token,
-      expiresIn: data.body.expires_in,
-    });
-    console.log(`Checkpoint1 ${++i}`);
-  } catch (e: any) {
-    console.log(`Checkpoint2 ${++i}`);
-    console.log(e);
-    res.sendStatus(404);
-  }*/
 });
 
 // HTTPS server
