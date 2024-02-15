@@ -2,6 +2,8 @@ const https = require("https");
 const fs = require("fs");
 const express = require("express");
 const SpotifyWebApi = require("spotify-web-api-node");
+const bodyParser = require("body-parser");
+
 
 // SSL
 const privateKey = fs.readFileSync("/etc/nginx/ssl/local-server.key", "utf8");
@@ -13,7 +15,9 @@ const credentials = {
 };
 
 // Endpoints
+
 const app = express();
+app.use(bodyParser.json());
 app.get("/", (req: any, res: any) => {
   res.send("Hello World");
 });
@@ -21,6 +25,26 @@ app.get("/", (req: any, res: any) => {
 app.get("/api", (req: any, res: any) => {
   res.send("Hell");
 });
+
+app.post("/refresh", (req: any, res: any) => {
+  const refreshToken = req.body.refreshToken;
+  const spotifyApi = new SpotifyWebApi({
+    redirectUri: 'http://localhost:3000',
+    clientId: '77f685e7f75347a08e71369bd8eef061',
+    clientSecret: '7522dff5768a4935aa862b365a33bb7a',
+    refreshToken,
+  });
+
+  spotifyApi.refreshAccessToken().then(
+    (data: any) => {
+      res.json({
+        accessToken: data.body.access_token,
+        expiresIn: data.body.expires_in,
+      });
+    }).catch(() => {
+      res.sendStatus(400);
+    })
+})
 
 app.get("/login", (req: any, res: any) => {
     const code  = req.body.code;
@@ -35,7 +59,8 @@ app.get("/login", (req: any, res: any) => {
             accessToken: data.body.access_token,
             refreshToken: data.body.refreh_token,
             expiresIn: data.body.expires_in
-        }).cathc(() => {
+        }).catch((err: any) => {
+            console.log(err);
             res.sendStatus(404)
         })
     })
