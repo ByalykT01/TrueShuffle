@@ -28,12 +28,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const corsOptions = {
-  origin: "https://encape.me",
-
-  optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Endpoints
 app.get("/", (req: any, res: any) => {
@@ -104,5 +99,3 @@ httpsServer
   .on("error", (err: any) => {
     console.error("Server failed to start:", err);
   });
-httpsServer.setTimeout(10000);
-httpsServer.keepAliveTimeout = 65000;
