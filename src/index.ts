@@ -71,8 +71,9 @@ app.post("/login", async (req: any, res: any) => {
         expiresIn: data.body.expires_in,
       });
     })
-    .catch(() => {
-      res.sendStatus(400);
+    .catch((e: any) => {
+      res.send(e);
+      throw e;
     });
   /*let data = await spotifyApi.authorizationCodeGrant(code);
   console.log(`Checkpoint ${++i}`);
