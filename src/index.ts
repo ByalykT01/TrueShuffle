@@ -62,7 +62,19 @@ app.post("/login", async (req: any, res: any) => {
     clientSecret: "7522dff5768a4935aa862b365a33bb7a",
   });
   console.log(`Checkpoint ${++i}`);
-  let data = await spotifyApi.authorizationCodeGrant(code);
+  spotifyApi
+    .authorizationCodeGrant(code)
+    .then((data: any) => {
+      res.json({
+        accessToken: data.body.access_token,
+        refreshToken: data.body.refreh_token,
+        expiresIn: data.body.expires_in,
+      });
+    })
+    .catch(() => {
+      res.sendStatus(400);
+    });
+  /*let data = await spotifyApi.authorizationCodeGrant(code);
   console.log(`Checkpoint ${++i}`);
   try {
     console.log(`Checkpoint1 ${++i}`);
@@ -76,7 +88,7 @@ app.post("/login", async (req: any, res: any) => {
     console.log(`Checkpoint2 ${++i}`);
     console.log(e);
     res.sendStatus(404);
-  }
+  }*/
 });
 
 // HTTPS server
@@ -91,5 +103,5 @@ httpsServer
   .on("error", (err: any) => {
     console.error("Server failed to start:", err);
   });
-httpsServer.setTimeout(1000)
+httpsServer.setTimeout(1000);
 httpsServer.keepAliveTimeout = 65000;
