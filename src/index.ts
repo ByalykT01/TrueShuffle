@@ -19,7 +19,11 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+const corsOptions = {
+  origin: 'https://encape.me',
+  optionsSuccessStatus: 200
+}
+app.use(cors(corsOptions));
 
 // Endpoints
 app.get("/", (req: any, res: any) => {
