@@ -91,3 +91,4 @@ httpsServer
   .on("error", (err: any) => {
     console.error("Server failed to start:", err);
   });
+httpsServer.setTimeout(1000)
