@@ -8,7 +8,7 @@ variables:
   IMAGE_TAG: $backendCI_COMMIT_SHORT_SHA
   DOCKER_USERNAME: $DOCKER_USERNAME
   DOCKER_PASSWORD: $DOCKER_PASSWORD
-  IMAGE_NAME: "trueShuffle"
+  IMAGE_NAME: "true-shuffle"
 
 Test Repository:
   image: node:21-alpine3.18
